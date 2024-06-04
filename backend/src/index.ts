@@ -1,7 +1,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
-import router from './Routes/course_route';
+import course_router from './Routes/course_route';
+import userRouter from './Routes/user_route';
 import dotenv from 'dotenv'; 
 dotenv.config();
 
@@ -10,7 +11,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({extended: true}));
-app.use('/course', router);
+app.use('/course', course_router);
+app.use('/user', userRouter);
 
 if (!process.env.DATABASE) {
     throw new Error("DATABASE environment variable is not defined");

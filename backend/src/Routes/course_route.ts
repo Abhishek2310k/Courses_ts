@@ -1,13 +1,13 @@
 import express, { Request, Response } from 'express';
 import courseModel from '../models/course';
-const router = express.Router();
+const course_router = express.Router();
 
-router.get("/get_courses",async (req: Request,res: Response)=>{
+course_router.get("/get_courses",async (req: Request,res: Response)=>{
     const data = await courseModel.find();
     return res.json(data);
 })
 
-router.post("/add_course",async(req: Request,res: Response)=>{
+course_router.post("/add_course",async(req: Request,res: Response)=>{
     try {
         const {course_id,course_name,price,description,author} = req.body;
 
@@ -26,7 +26,7 @@ router.post("/add_course",async(req: Request,res: Response)=>{
     }
 })
 
-router.post("/delete_course",async(req: Request,res: Response)=>{
+course_router.post("/delete_course",async(req: Request,res: Response)=>{
     const {id} = req.body;
     console.log(id);
     try {
@@ -37,7 +37,7 @@ router.post("/delete_course",async(req: Request,res: Response)=>{
     }
 })
 
-router.post("/update_course",async(req:Request,res:Response)=>{
+course_router.post("/update_course",async(req:Request,res:Response)=>{
     const {id,updated} = req.body;
     try {
         const { course_id, author, course_name, description, price } = updated;
@@ -54,4 +54,4 @@ router.post("/update_course",async(req:Request,res:Response)=>{
 
 
 
-export default router;
+export default course_router;
