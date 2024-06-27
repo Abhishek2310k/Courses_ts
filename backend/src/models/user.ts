@@ -1,6 +1,7 @@
 import { Schema, Model, model } from 'mongoose';
+
 interface userInterface {
-    email:string
+    email:string;
     password:string
     userName:string
     courses_added?:string[]

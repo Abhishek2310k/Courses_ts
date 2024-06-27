@@ -1,4 +1,5 @@
 import { Schema, Model, model } from 'mongoose';
+
 interface courseInterface {
     course_id: string,
     course_name: string,
