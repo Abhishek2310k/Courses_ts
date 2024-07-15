@@ -1,29 +1,32 @@
 import express, { Request, Response } from 'express';
 import courseModel from '../models/course';
 const course_router = express.Router();
-import {z} from 'zod';
+import { z } from 'zod';
 
 const add_course_schema = z.object({
-    course_id:z.string(),
-    course_name:z.string(),
-    price:z.number(),
-    description:z.string(),
-    author:z.string()
+    course_id: z.string(),
+    course_name: z.string(),
+    price: z.number(),
+    description: z.string(),
+    author: z.string()
 });
 
 const delete_course_schema = z.object({
-    id:z.string(),
+    id: z.string(),
+});
+
+const get_course_schema = z.object({
+    id: z.string(),
 });
 
 const update_course_schema = z.object({
-    id:z.string(),
-    updated:z.object({
-        course_id:z.string(),
-        author:z.string(),
-        course_name:z.string(),
-        description:z.string(),
-        price:z.number()
-    })
+    _id: z.string(),
+    course_id: z.string(),
+    author: z.string(),
+    course_name: z.string(),
+    description: z.string(),
+    price: z.number(),
+    no_of_users: z.number()
 });
 
 // Utility function to send a consistent response format
@@ -71,16 +74,26 @@ course_router.post("/delete_course", async (req: Request, res: Response) => {
 
 course_router.post("/update_course", async (req: Request, res: Response) => {
     try {
-        const { id, updated } = update_course_schema.parse(req.body);
-        const { course_id, author, course_name, description, price } = updated;
+        const { _id, course_id, author, course_name, description, price, no_of_users } = update_course_schema.parse(req.body);
         await courseModel.findByIdAndUpdate(
-            { _id: id },
-            { course_id, author, course_name, description, price }
+            { _id },
+            { course_id, author, course_name, description, price, no_of_users }
         );
         sendResponse(res, 200, false, 'Update successful');
     } catch (err) {
         sendResponse(res, 500, true, 'Error updating course', err);
     }
 });
+
+course_router.get("/get_course", async (req: Request, res: Response) => {
+    try {
+        const id = req.query.id || "";
+        console.log(id);
+        const course = await courseModel.findById(id);
+        sendResponse(res, 200, false, 'Course received', course);
+    } catch (err) {
+        sendResponse(res, 500, true, 'Error getting the course', err);
+    }
+})
 
 export default course_router;

@@ -1,0 +1,32 @@
+.profile {
+    width: 80%;
+    margin: 0 10%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    .add_course_button a {
+        text-decoration: none;
+        color: black;
+        padding: 10px;
+        border: 1px solid gray;
+        border-radius: 8px;
+    }
+    .courses_bought {
+        .editable_block {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            .edit_button {
+                padding: 10px 20px;
+                border-radius: 25px;
+                background-color: #FF033E;
+                border: 1px solid #FF033E;
+                color: white;
+            }
+            .edit_button:hover {
+                color: #FF033E;
+                background-color: white;
+            }
+        }
+    }
+}
