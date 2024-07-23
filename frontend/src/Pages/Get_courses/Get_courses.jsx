@@ -19,12 +19,10 @@ const Get_courses = () => {
     getData();
   }, []);
 
-  console.log(courses);
-
   return (
     <div className='get_courses'>
       {
-        courses.map((course,index)=> {return <Course_card course = {course}/>;})
+        courses.map((course,index)=> {return <Course_card course = {course} key = {index} page = "get_courses"/>;})
       }
     </div>
   )

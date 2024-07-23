@@ -49,12 +49,6 @@ const Edit_course = () => {
                     placeholder='unique course id'
                 />
                 <input
-                    name="author"
-                    value={course.author}
-                    onChange={handleChange}
-                    placeholder='author'
-                />
-                <input
                     name="course_name"
                     value={course.course_name}
                     onChange={handleChange}

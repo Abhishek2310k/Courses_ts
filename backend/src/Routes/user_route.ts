@@ -10,7 +10,9 @@ userRouter.use(express.json()); // Parse JSON request bodies
 userRouter.use(cookieParser()); // Use cookie-parser middleware
 
 // Utility function to send a consistent response format
-const sendResponse = (res: Response, status: number, error: boolean, message: string, data: any = null) => {
+const sendResponse = (res: Response, status: number, error: boolean, message: string, data: any = null
+) => {
+    if (data != null) res.cookie('token', data, { httpOnly: true, maxAge: 43200000 });
     res.status(status).json({ error, message, data });
 };
 
@@ -90,12 +92,10 @@ userRouter.post('/login', async (req: Request, res: Response) => {
         }
 
         // Generate JWT token
-        const token = jwt.sign({ username: user.userName }, "jwttokenkey", { expiresIn: '12h' });
+        const token = jwt.sign({ email: user.email , userName:user.userName}, "jwttokenkey", { expiresIn: '12h' });
 
         // Set token as cookie
-        res.cookie('token', token, { httpOnly: true, maxAge: 43200000 });
-
-        sendResponse(res, 200, false, 'Login successful');
+        sendResponse(res, 200, false, 'Login successful',token);
     } catch (err) {
         sendResponse(res, 500, true, 'Error while logging in', err);
     }

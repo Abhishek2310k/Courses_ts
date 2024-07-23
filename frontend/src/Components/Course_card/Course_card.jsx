@@ -3,7 +3,7 @@ import './Course_card.scss'
 import { FaUsers } from "react-icons/fa";
 import { ImPriceTag } from "react-icons/im";
 import { Link } from 'react-router-dom';
-const Course_card = ({course}) => {
+const Course_card = ({course,page}) => {
   return (
     <div className='course_card'>
         <h3>{course.course_name}</h3>
@@ -18,8 +18,8 @@ const Course_card = ({course}) => {
                 <span>{course.price}</span>
             </div>
             <div className='buttons'>
-                <button className='buy'>Buy</button>
-                <Link to={`/detailed_course/${course._id}`}><button className='details'>Details</button></Link>
+                {page === "profile" ? <></>:<button className='buy'>Buy</button>}
+                <Link to={`/detailed_course/${course._id}`} className='details'><span>Details</span></Link>
             </div>
         </div>
     </div>

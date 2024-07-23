@@ -36,8 +36,15 @@ const sendResponse = (res: Response, status: number, error: boolean, message: st
 
 course_router.get("/get_courses", async (req: Request, res: Response) => {
     try {
-        const data = await courseModel.find();
-        sendResponse(res, 200, false, 'Courses retrieved successfully', data);
+        const author = req.query.author || "";
+        let courses;
+        if (author) {
+            courses = await courseModel.find({ author: author });
+        } else {
+            courses = await courseModel.find();
+        }
+
+        sendResponse(res, 200, false, 'Courses retrieved successfully', courses);
     } catch (err) {
         sendResponse(res, 500, true, 'Error retrieving courses', err);
     }

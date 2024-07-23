@@ -1,15 +1,19 @@
-import React,{useEffect,useState} from 'react'
+import React,{useEffect,useState,useContext} from 'react'
+import noteContext from '../../context/noteContext'
 import axios from 'axios'
 import './Profile.scss'
 import Course_card from '../../Components/Course_card/Course_card'
 import {Link} from 'react-router-dom';
 const Profile = () => {
+  const user = useContext(noteContext).user_login;
 
   const [my_courses,setMyCourses] = useState([]);
   const getData = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/course/get_courses');
-      setMyCourses(response.data.data);
+      if (user !== null) {
+        const response = await axios.get('http://localhost:8080/course/get_courses?author='+user.userName);
+        setMyCourses(response.data.data);
+      }
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -17,7 +21,7 @@ const Profile = () => {
   
   useEffect(() => {
     getData();
-  }, []);
+  }, [user]);
 
   const handleClick = async (e,id) => {
     e.preventDefault();
@@ -40,8 +44,8 @@ const Profile = () => {
         {
           my_courses.map((course,index) => {
             return (
-              <div className='editable_block'>
-                <Course_card course={course}/>
+              <div className='editable_block' key = {index}>
+                <Course_card course={course} page="profile"/>
                 <Link to={`/edit_course/${course._id}`}><button className='edit_button'>Edit</button></Link>
                 <button 
                 type='click' 
